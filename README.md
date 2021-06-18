@@ -21,7 +21,7 @@ Jenkins X likes to use GitOps to manage the lifecycle of both infrastructure and
   and generate a a personal access token, this will be used by Jenkins X to interact with git repositories.
   e.g. https://github.com/settings/tokens/new?scopes=repo,read:user,read:org,user:email,write:repo_hook,delete_repo,admin:repo_hook
 
-- __This bot user needs to have write permission to write to any git repository used by Jenkins X.  This can be done by adding the bot user to the git organisation level or individual repositories as a collaborator__
+-  This bot user needs to have write permission to write to any git repository used by Jenkins X.  This can be done by adding the bot user to the git organisation level or individual repositories as a collaborator__
   Add the new `bot` user to your Git Organisation, for now give it Owner permissions, we will reduce this to member permissions soon.
 - Check and install latest `terraform` CLI - [see here](https://learn.hashicorp.com/tutorials/terraform/install-cli#install-terraform)
 - Check and install latest `jx` CLI - [see here](https://github.com/jenkins-x/jx/releases)
@@ -48,27 +48,27 @@ __Note: remember to create the Git repositories below in your Git Organisation r
 
 1. Create an **Infrastructure** git repo from this GitHub Template https://github.com/jx3-gitops-repositories/jx3-terraform-gke/generate.  If you are following from the Jenkins X website then this initial step may have already happened.
 
-    __Note:__ Ensure **Owner** is the name of the Git Organisation that will hold the GitOps repositories used for Jenkins X.
+    __Note:__ Ensure **The-BlackGuarD-Family** is the name of the Git Organisation that will hold the GitOps repositories used for Jenkins X.
 
 2. Create a **Cluster** git repository; choosing your desired secrets store, either Google Secret Manager or Vault:
-    - __Google Secret Manager__: https://github.com/jx3-gitops-repositories/jx3-gke-gsm/generate
+    - __Google Secret Manager#404: https://github.com/jx3-gitops-repositories/jx3-gke-gsm/generate
 
     - __Vault__: https://github.com/jx3-gitops-repositories/jx3-gke-vault/generate
     
-    __Note:__ Ensure **Owner** is the name of the Git Organisation that will hold the GitOps repositories used for Jenkins X.
+    __Note:__ Ensure **The-Blackguard-Family** is the name of the Git Organisation that will hold the GitOps repositories used for Jenkins X.
 
 3. You need to configure the git URL of your **Cluster** git repository (which contains `helmfile.yaml`) into the **Infrastructure** git repository (which contains `main.tf`). 
 
 So from inside a git clone of the **Infrastructure** git repository (which already has the files `main.tf` and `values.auto.tfvars` inside) you need to link to the other **Cluster** repository (which contains `helmfile.yaml`) by committing the required terraform values from below to your `values.auto.tfvars`, e.g.
 
-```sh
+```md5
 cat <<EOF >> values.auto.tfvars    
-jx_git_url = "https://github.com/$git_owner_from_cluster_template_above/$git_repo_from_cluster_template_above"
-gcp_project = "my-gcp-project"
+jx_google_url = "https://google.com/$git_owner_from_cluster_template_above/$git_my_assistent_repo_from_cluster_template_above"
+gcp_project = "my-Assistent-project"
 EOF
 ```
 If using Google Secret Manager (not Vault) cluster template from above enable it for Terraform using:
-```sh
+```md5
 cat <<EOF >> values.auto.tfvars 
 gsm = true
 EOF
@@ -78,41 +78,41 @@ The contents of your `values.auto.tfvars` file should look something like this (
 
 ```terraform
 resource_labels = { "provider" : "jx" }
-jx_git_url = "https://github.com/myowner/myname-cluster"
-gcp_project = "my-gcp-project"
+jx_git_url = "https://github.com/Blackguard88/The-Blackguard-Family-cluster"
+gcp_project = "my-Assistent-project"
 gsm = true
 ```
 
-4. commit and push any changes to your **Infrastructure** git repository:
+4. commit and push any changes to your **Infrastructure** git google repository:
 
-```sh
+```md5
 git commit -a -m "fix: configure cluster repository and project"
 git push
-```
+```md5
 
 5. Now define 2 environment variables to pass the bot user and token into Terraform:
 
-```sh
-export TF_VAR_jx_bot_username=my-bot-username
-export TF_VAR_jx_bot_token=my-bot-token
+```md5
+export TF_VAR_jx_bot_username=my-assistent-blackguard
+export TF_VAR_jx_bot_token=my-assistent-token
 ```
 
 6. Now, initialise, plan and apply Terraform:
 
-```sh
+```Md5
 terraform init
 ```
 
-```sh
+```md5
 terraform plan
 ```
 
-```sh
+```md5
 terraform apply
 ```
 
 Connect to the cluster
-```
+The Blackguard Family
 $(terraform output connect)
 ```
 Tail the Jenkins X installation logs
@@ -121,13 +121,13 @@ $(terraform output follow_install_logs)
 ```
 Once finished you can now move into the Jenkins X Developer namespace
 
-```sh
+```Md5
 jx ns jx
 ```
 
 and create or import your applications
 
-```sh
+```md5
 jx project
 ```
 
@@ -161,7 +161,7 @@ For the full list of terraform inputs [see the documentation for jenkins-x/terra
 # Cleanup
 
 To remove any cloud resources created here run:
-```sh
+```md5
 terraform destroy
 ```
 
@@ -176,6 +176,6 @@ and replace the Inputs section above
 ## Formatting
 
 When developing please remember to format codebase before raising a pull request
-```sh
+```md5
 terraform fmt -check -diff -recursive
 ```
